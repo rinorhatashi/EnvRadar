@@ -1,0 +1,23 @@
+# EnvGuard configuration — https://github.com/rinorhatashi/EnvGuard
+#
+# Each environment names a source and where to read its variable names from.
+# The dotenv source only reads keys; it never stores or reports secret values.
+environments:
+  staging:
+    source: dotenv
+    path: .env.staging
+  production:
+    source: dotenv
+    path: .env.production
+
+# Statuses that make `envguard scan` exit non-zero (used to fail CI).
+failOn:
+  - MISSING
+  - PARITY
+
+# Silence intentional findings by uncommenting and listing variable names:
+# ignore:
+#   parity:
+#     - DEBUG          # intentionally only set in staging
+#   dead:
+#     - LEGACY_TOKEN   # legacy var; scheduled for removal

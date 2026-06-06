@@ -1,0 +1,16 @@
+# Dependencies & build output
+node_modules/
+dist/
+coverage/
+
+# Logs & OS cruft
+*.log
+.DS_Store
+
+# Secrets — never commit real env files
+.env
+.env.*
+!.env.example
+# …except the demo's sample files, which contain only fake values:
+!examples/demo/.env.staging
+!examples/demo/.env.production

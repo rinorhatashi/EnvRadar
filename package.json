@@ -1,0 +1,62 @@
+{
+  "name": "envguard",
+  "version": "0.1.0",
+  "description": "Inventory the environment variables your code expects and check them against every environment — surfacing missing vars, staging/production parity drift, and dead configuration.",
+  "keywords": [
+    "env",
+    "environment-variables",
+    "dotenv",
+    "configuration",
+    "parity",
+    "drift",
+    "secrets",
+    "cli",
+    "github-action",
+    "devops"
+  ],
+  "license": "MIT",
+  "author": "Rinor Hatashi",
+  "homepage": "https://github.com/rinorhatashi/EnvGuard#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rinorhatashi/EnvGuard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rinorhatashi/EnvGuard/issues"
+  },
+  "type": "module",
+  "bin": {
+    "envguard": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx src/index.ts",
+    "envguard": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "fast-glob": "^3.3.2",
+    "picocolors": "^1.1.0",
+    "yaml": "^2.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "tsup": "^8.3.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}
