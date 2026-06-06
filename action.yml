@@ -57,11 +57,11 @@ runs:
         [ -n "$FAIL_ON" ] && ARGS+=(--fail-on "$FAIL_ON")
 
         # Human-readable output into the job log; its exit code is the verdict.
-        npx --yes "envguard@$VERSION" "${ARGS[@]}" --no-color
+        npx --yes "@rinorhatashi/envguard@$VERSION" "${ARGS[@]}" --no-color
         echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
         # Markdown report for the PR comment.
-        npx --yes "envguard@$VERSION" "${ARGS[@]}" --format markdown --output "$REPORT"
+        npx --yes "@rinorhatashi/envguard@$VERSION" "${ARGS[@]}" --format markdown --output "$REPORT"
         echo "report_path=$REPORT" >> "$GITHUB_OUTPUT"
 
     - name: Comment report on the pull request

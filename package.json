@@ -1,6 +1,9 @@
 {
-  "name": "envguard",
+  "name": "@rinorhatashi/envguard",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "Inventory the environment variables your code expects and check them against every environment — surfacing missing vars, staging/production parity drift, and dead configuration.",
   "keywords": [
     "env",

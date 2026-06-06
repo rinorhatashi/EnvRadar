@@ -14,10 +14,10 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/envguard"><img src="https://img.shields.io/npm/v/envguard.svg" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/@rinorhatashi/envguard"><img src="https://img.shields.io/npm/v/@rinorhatashi/envguard" alt="npm version" /></a>
   <a href="https://github.com/rinorhatashi/EnvGuard/actions/workflows/ci.yml"><img src="https://github.com/rinorhatashi/EnvGuard/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/envguard.svg" alt="license" /></a>
-  <img src="https://img.shields.io/node/v/envguard.svg" alt="node version" />
+  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/@rinorhatashi/envguard" alt="license" /></a>
+  <img src="https://img.shields.io/node/v/@rinorhatashi/envguard" alt="node version" />
 </p>
 
 <p align="center">
@@ -115,13 +115,13 @@ flowchart LR
 ## Install
 
 ```bash
-npm install -g envguard
+npm install -g @rinorhatashi/envguard
 ```
 
 …or run it without installing:
 
 ```bash
-npx envguard scan
+npx @rinorhatashi/envguard scan
 ```
 
 Requires **Node.js 18 or newer**.

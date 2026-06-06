@@ -79,7 +79,7 @@ export function renderMarkdown(report: Report): string {
   }
 
   out.push(
-    "<sub>EnvGuard · run <code>npx envguard scan</code> locally to reproduce.</sub>",
+    "<sub>EnvGuard · run <code>envguard scan</code> locally to reproduce.</sub>",
   );
   return out.join("\n");
 }
