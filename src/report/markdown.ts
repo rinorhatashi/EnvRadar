@@ -1,7 +1,7 @@
 import type { Finding, Report } from "../types";
 
 /** HTML marker so the GitHub Action can find and update its own comment. */
-export const MARKDOWN_MARKER = "<!-- envguard-report -->";
+export const MARKDOWN_MARKER = "<!-- envradar-report -->";
 
 /** Render the report as Markdown suitable for a pull-request comment. */
 export function renderMarkdown(report: Report): string {
@@ -9,7 +9,7 @@ export function renderMarkdown(report: Report): string {
   const out: string[] = [];
 
   out.push(MARKDOWN_MARKER);
-  out.push("## EnvGuard — environment variable report");
+  out.push("## EnvRadar — environment variable report");
   out.push("");
 
   const envText = report.environments.length
@@ -79,7 +79,7 @@ export function renderMarkdown(report: Report): string {
   }
 
   out.push(
-    "<sub>EnvGuard · run <code>envguard scan</code> locally to reproduce.</sub>",
+    "<sub>EnvRadar · run <code>envradar scan</code> locally to reproduce.</sub>",
   );
   return out.join("\n");
 }

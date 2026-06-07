@@ -1,6 +1,6 @@
 import { dotenvAdapter } from "./dotenv";
 import type { SourceAdapter } from "./types";
-import type { EnvguardConfig, EnvironmentVars } from "../types";
+import type { EnvRadarConfig, EnvironmentVars } from "../types";
 
 /** Registry of available source adapters, keyed by id. */
 const ADAPTERS: Record<string, SourceAdapter> = {
@@ -18,7 +18,7 @@ export interface ResolvedEnvironments {
  * than flooding the report with false "missing" findings.
  */
 export async function resolveEnvironments(
-  config: EnvguardConfig,
+  config: EnvRadarConfig,
   root: string,
 ): Promise<ResolvedEnvironments> {
   const warnings: string[] = [];

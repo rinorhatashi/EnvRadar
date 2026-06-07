@@ -1,5 +1,5 @@
 {
-  "name": "@rinorhatashi/envguard",
+  "name": "envradar",
   "version": "0.1.0",
   "publishConfig": {
     "access": "public"
@@ -19,17 +19,17 @@
   ],
   "license": "MIT",
   "author": "Rinor Hatashi",
-  "homepage": "https://github.com/rinorhatashi/EnvGuard#readme",
+  "homepage": "https://github.com/rinorhatashi/EnvRadar#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rinorhatashi/EnvGuard.git"
+    "url": "git+https://github.com/rinorhatashi/EnvRadar.git"
   },
   "bugs": {
-    "url": "https://github.com/rinorhatashi/EnvGuard/issues"
+    "url": "https://github.com/rinorhatashi/EnvRadar/issues"
   },
   "type": "module",
   "bin": {
-    "envguard": "dist/index.js"
+    "envradar": "dist/index.js"
   },
   "files": [
     "dist",
@@ -42,7 +42,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsx src/index.ts",
-    "envguard": "tsx src/index.ts",
+    "envradar": "tsx src/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

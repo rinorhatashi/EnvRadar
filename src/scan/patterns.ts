@@ -73,7 +73,7 @@ export const LANGUAGE_PATTERNS: LanguagePattern[] = [
   },
 ];
 
-/** Every file extension EnvGuard knows how to scan. */
+/** Every file extension EnvRadar knows how to scan. */
 export const ALL_EXTENSIONS: string[] = [
   ...new Set(LANGUAGE_PATTERNS.flatMap((p) => p.extensions)),
 ];

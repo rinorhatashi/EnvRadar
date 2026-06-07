@@ -1,4 +1,4 @@
-name: "EnvGuard"
+name: "EnvRadar"
 description: "Check that every environment variable your code reads is configured in every environment, and comment the report on the PR."
 author: "Rinor Hatashi"
 
@@ -12,11 +12,11 @@ inputs:
     required: false
     default: "."
   config:
-    description: "Path to an envguard.yml config file (optional)."
+    description: "Path to an envradar.yml config file (optional)."
     required: false
     default: ""
   fail-on:
-    description: "Comma-separated statuses that fail the job: missing, parity, dead, none. Overrides envguard.yml."
+    description: "Comma-separated statuses that fail the job: missing, parity, dead, none. Overrides envradar.yml."
     required: false
     default: ""
   comment:
@@ -24,7 +24,7 @@ inputs:
     required: false
     default: "true"
   version:
-    description: "Version of the envguard npm package to run."
+    description: "Version of the envradar npm package to run."
     required: false
     default: "latest"
   github-token:
@@ -40,8 +40,8 @@ runs:
       with:
         node-version: "20"
 
-    - name: Run EnvGuard
-      id: envguard
+    - name: Run EnvRadar
+      id: envradar
       shell: bash
       env:
         WORKING_DIRECTORY: ${{ inputs.working-directory }}
@@ -50,36 +50,36 @@ runs:
         VERSION: ${{ inputs.version }}
       run: |
         set +e
-        REPORT="$RUNNER_TEMP/envguard-report.md"
+        REPORT="$RUNNER_TEMP/envradar-report.md"
 
         ARGS=(scan "$WORKING_DIRECTORY")
         [ -n "$CONFIG" ] && ARGS+=(--config "$CONFIG")
         [ -n "$FAIL_ON" ] && ARGS+=(--fail-on "$FAIL_ON")
 
         # Human-readable output into the job log; its exit code is the verdict.
-        npx --yes "@rinorhatashi/envguard@$VERSION" "${ARGS[@]}" --no-color
+        npx --yes "envradar@$VERSION" "${ARGS[@]}" --no-color
         echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
         # Markdown report for the PR comment.
-        npx --yes "@rinorhatashi/envguard@$VERSION" "${ARGS[@]}" --format markdown --output "$REPORT"
+        npx --yes "envradar@$VERSION" "${ARGS[@]}" --format markdown --output "$REPORT"
         echo "report_path=$REPORT" >> "$GITHUB_OUTPUT"
 
     - name: Comment report on the pull request
       if: ${{ inputs.comment == 'true' && github.event_name == 'pull_request' }}
       uses: actions/github-script@v7
       env:
-        REPORT_PATH: ${{ steps.envguard.outputs.report_path }}
+        REPORT_PATH: ${{ steps.envradar.outputs.report_path }}
       with:
         github-token: ${{ inputs.github-token }}
         script: |
           const fs = require('fs');
           const file = process.env.REPORT_PATH;
           if (!file || !fs.existsSync(file)) {
-            core.info('No EnvGuard report to post.');
+            core.info('No EnvRadar report to post.');
             return;
           }
           const body = fs.readFileSync(file, 'utf8');
-          const marker = '<!-- envguard-report -->';
+          const marker = '<!-- envradar-report -->';
           const { owner, repo } = context.repo;
           const issue_number = context.issue.number;
 
@@ -95,8 +95,8 @@ runs:
           }
 
     - name: Enforce result
-      if: ${{ steps.envguard.outputs.exit_code != '0' }}
+      if: ${{ steps.envradar.outputs.exit_code != '0' }}
       shell: bash
       run: |
-        echo "::error::EnvGuard found environment variable issues — see the report above or the PR comment."
+        echo "::error::EnvRadar found environment variable issues — see the report above or the PR comment."
         exit 1

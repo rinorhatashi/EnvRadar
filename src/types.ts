@@ -1,5 +1,5 @@
 /**
- * Core data model shared across EnvGuard's scan, source, compare and report
+ * Core data model shared across EnvRadar's scan, source, compare and report
  * layers. Keeping these in one place makes the data flow easy to follow:
  *
  *   scanCode()            -> CodeScanResult   (what the code reads)
@@ -62,7 +62,7 @@ export interface Report {
   warnings: string[];
 }
 
-/** Per-environment configuration in envguard.yml. */
+/** Per-environment configuration in envradar.yml. */
 export interface EnvironmentConfig {
   /** Source adapter id. Defaults to "dotenv". */
   source?: string;
@@ -70,8 +70,8 @@ export interface EnvironmentConfig {
   path?: string;
 }
 
-/** Parsed envguard.yml. Every field is optional. */
-export interface EnvguardConfig {
+/** Parsed envradar.yml. Every field is optional. */
+export interface EnvRadarConfig {
   environments?: Record<string, EnvironmentConfig>;
   ignore?: {
     /** Vars allowed to differ across environments (no PARITY alert). */
@@ -87,6 +87,6 @@ export interface EnvguardConfig {
     /** Globs to skip, in addition to the built-in defaults. */
     exclude?: string[];
   };
-  /** Statuses that make `envguard scan` exit non-zero. Defaults to MISSING + PARITY. */
+  /** Statuses that make `envradar scan` exit non-zero. Defaults to MISSING + PARITY. */
   failOn?: Status[];
 }

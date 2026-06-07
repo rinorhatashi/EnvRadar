@@ -1,4 +1,4 @@
-# EnvGuard configuration — https://github.com/rinorhatashi/EnvGuard
+# EnvRadar configuration — https://github.com/rinorhatashi/EnvRadar
 #
 # Each environment names a source and where to read its variable names from.
 # The dotenv source only reads keys; it never stores or reports secret values.
@@ -10,7 +10,7 @@ environments:
     source: dotenv
     path: .env.production
 
-# Statuses that make `envguard scan` exit non-zero (used to fail CI).
+# Statuses that make `envradar scan` exit non-zero (used to fail CI).
 failOn:
   - MISSING
   - PARITY

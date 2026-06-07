@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { buildReport } from "../src/compare";
 import type {
   CodeScanResult,
-  EnvguardConfig,
+  EnvRadarConfig,
   EnvironmentVars,
 } from "../src/types";
 
@@ -52,7 +52,7 @@ describe("buildReport", () => {
   });
 
   it("honours ignore lists", () => {
-    const config: EnvguardConfig = {
+    const config: EnvRadarConfig = {
       ignore: { parity: ["API_KEY"], dead: ["DEBUG"] },
     };
     const report = buildReport(

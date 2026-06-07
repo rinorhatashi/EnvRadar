@@ -2,12 +2,12 @@ import { readFile, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
-import type { EnvguardConfig, EnvironmentConfig } from "../types";
+import type { EnvRadarConfig, EnvironmentConfig } from "../types";
 
-const CONFIG_NAMES = ["envguard.yml", "envguard.yaml"];
+const CONFIG_NAMES = ["envradar.yml", "envradar.yaml"];
 
 export interface LoadedConfig {
-  config: EnvguardConfig;
+  config: EnvRadarConfig;
   /** Absolute path of the config file, if one was found. */
   configPath?: string;
   /** True when environments were discovered from .env files rather than declared. */
@@ -17,7 +17,7 @@ export interface LoadedConfig {
 /**
  * Load configuration for a scan. Resolution order:
  *   1. An explicit `--config` path (error if missing).
- *   2. envguard.yml / envguard.yaml next to the scanned root.
+ *   2. envradar.yml / envradar.yaml next to the scanned root.
  *   3. Zero-config: discover environments from local `.env.*` files.
  *
  * When a config file exists but declares no environments, we still
@@ -48,7 +48,7 @@ export async function loadConfig(
 
   if (configPath) {
     const raw = await readFile(configPath, "utf8");
-    const config = (parseYaml(raw) ?? {}) as EnvguardConfig;
+    const config = (parseYaml(raw) ?? {}) as EnvRadarConfig;
     if (
       !config.environments ||
       Object.keys(config.environments).length === 0

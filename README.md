@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/envguard-logo-dark.svg" />
-    <img src="assets/envguard-logo-light.svg" alt="EnvGuard" width="440" />
+    <source media="(prefers-color-scheme: dark)" srcset="assets/envradar-logo-dark.svg" />
+    <img src="assets/envradar-logo-light.svg" alt="EnvRadar" width="440" />
   </picture>
 </p>
 
@@ -10,14 +10,14 @@
 </p>
 
 <p align="center">
-  EnvGuard statically analyzes your codebase to inventory every environment variable it reads, then cross-references that list against what each of your environments actually provides — surfacing <em>missing</em> variables, staging/production <em>parity drift</em>, and <em>dead</em> configuration no code uses anymore.
+  EnvRadar statically analyzes your codebase to inventory every environment variable it reads, then cross-references that list against what each of your environments actually provides — surfacing <em>missing</em> variables, staging/production <em>parity drift</em>, and <em>dead</em> configuration no code uses anymore.
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@rinorhatashi/envguard"><img src="https://img.shields.io/npm/v/@rinorhatashi/envguard" alt="npm version" /></a>
-  <a href="https://github.com/rinorhatashi/EnvGuard/actions/workflows/ci.yml"><img src="https://github.com/rinorhatashi/EnvGuard/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/@rinorhatashi/envguard" alt="license" /></a>
-  <img src="https://img.shields.io/node/v/@rinorhatashi/envguard" alt="node version" />
+  <a href="https://www.npmjs.com/package/envradar"><img src="https://img.shields.io/npm/v/envradar" alt="npm version" /></a>
+  <a href="https://github.com/rinorhatashi/EnvRadar/actions/workflows/ci.yml"><img src="https://github.com/rinorhatashi/EnvRadar/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/envradar" alt="license" /></a>
+  <img src="https://img.shields.io/node/v/envradar" alt="node version" />
 </p>
 
 <p align="center">
@@ -41,11 +41,11 @@
 
 So variables drift out of sync. One gets added to production at 3am during an incident and never backfilled to staging. One gets deleted from the code but lingers in every secrets manager for years. A new service ships to production missing a variable nobody knew to add.
 
-Existing tools don't close this gap. Dotenv linters (`dotenv-linter`, `dotenv-safe`) only compare a single local `.env` against `.env.example`. Infrastructure drift tools (`driftctl`, Terragrunt) only compare cloud resources against Terraform state — not application-level variable usage. **EnvGuard is the missing link between what the code reads and what every environment provides.**
+Existing tools don't close this gap. Dotenv linters (`dotenv-linter`, `dotenv-safe`) only compare a single local `.env` against `.env.example`. Infrastructure drift tools (`driftctl`, Terragrunt) only compare cloud resources against Terraform state — not application-level variable usage. **EnvRadar is the missing link between what the code reads and what every environment provides.**
 
 ## What it does
 
-EnvGuard reduces the entire question — *"is every environment configured correctly for this code?"* — to one command, `envguard scan`, and one report with four verdicts:
+EnvRadar reduces the entire question — *"is every environment configured correctly for this code?"* — to one command, `envradar scan`, and one report with four verdicts:
 
 | Status | Meaning | The failure it prevents |
 | :--- | :--- | :--- |
@@ -58,7 +58,7 @@ Run it locally before a deploy, or wire up the [GitHub Action](#github-action) t
 
 ## How it works
 
-EnvGuard is a three-stage pipeline. It performs **pure static analysis** — your code is never executed, so the scan is fast and safe to run anywhere, including untrusted CI.
+EnvRadar is a three-stage pipeline. It performs **pure static analysis** — your code is never executed, so the scan is fast and safe to run anywhere, including untrusted CI.
 
 ```mermaid
 flowchart LR
@@ -72,13 +72,13 @@ flowchart LR
 ```
 
 **1. Scan — build the manifest of what the code expects.**
-EnvGuard walks your source tree and applies a set of language-aware patterns to every supported file, extracting each environment-variable reference together with its file and line number. There's no build step and nothing is run; it simply reads source. The output is the *expected* manifest — the complete set of variables your code depends on.
+EnvRadar walks your source tree and applies a set of language-aware patterns to every supported file, extracting each environment-variable reference together with its file and line number. There's no build step and nothing is run; it simply reads source. The output is the *expected* manifest — the complete set of variables your code depends on.
 
 **2. Resolve — find out what each environment provides.**
-For every environment you configure, a **source adapter** reports the set of variable *names* that environment supplies. The built-in `dotenv` adapter reads the keys from a `.env` file; planned adapters query secrets managers like AWS SSM, Vercel, and Doppler. EnvGuard only ever reads variable **names — never secret values**. With no configuration at all, it auto-discovers local `.env.*` files and treats each as an environment.
+For every environment you configure, a **source adapter** reports the set of variable *names* that environment supplies. The built-in `dotenv` adapter reads the keys from a `.env` file; planned adapters query secrets managers like AWS SSM, Vercel, and Doppler. EnvRadar only ever reads variable **names — never secret values**. With no configuration at all, it auto-discovers local `.env.*` files and treats each as an environment.
 
 **3. Compare — cross-reference and classify.**
-EnvGuard builds a matrix of *what the code needs* against *what each environment has* and assigns every variable a status. `ignore` rules in your config demote intentional cases (an environment-specific flag, an allowed legacy var) to `OK`, and the `failOn` setting decides which statuses cause a non-zero exit so CI can gate on them.
+EnvRadar builds a matrix of *what the code needs* against *what each environment has* and assigns every variable a status. `ignore` rules in your config demote intentional cases (an environment-specific flag, an allowed legacy var) to `OK`, and the `failOn` setting decides which statuses cause a non-zero exit so CI can gate on them.
 
 Each variable lands in exactly one bucket:
 
@@ -96,48 +96,48 @@ The report is then rendered three ways — a colored terminal table for humans, 
 
 ## Runs entirely on your machine
 
-EnvGuard is local-first: **no hosted service, no account, no telemetry.** The `envguard` CLI makes **no network calls** — it reads your source and `.env` files from disk, analyzes them in-process, and writes a report. Nothing about your code or configuration is uploaded anywhere, because there's no reason for it to be.
+EnvRadar is local-first: **no hosted service, no account, no telemetry.** The `envradar` CLI makes **no network calls** — it reads your source and `.env` files from disk, analyzes them in-process, and writes a report. Nothing about your code or configuration is uploaded anywhere, because there's no reason for it to be.
 
 ```mermaid
 flowchart LR
     subgraph local["Your machine / CI runner — everything happens here"]
         direction LR
-        code["Source files"] --> eg["envguard CLI"]
-        cfg[".env files and envguard.yml"] --> eg
+        code["Source files"] --> eg["envradar CLI"]
+        cfg[".env files and envradar.yml"] --> eg
         eg --> report["Report:<br/>terminal · JSON · Markdown"]
     end
     eg x--x net(["External servers · telemetry"])
 ```
 
-- **Only names, never values.** EnvGuard compares variable *names*. It never reads, stores, or prints the secret values inside your `.env` files.
+- **Only names, never values.** EnvRadar compares variable *names*. It never reads, stores, or prints the secret values inside your `.env` files.
 - **Future cloud sources stay direct.** Planned adapters (AWS SSM, Vercel, Doppler, …) will talk **directly** to your own provider with your own credentials to list variable names — still no third-party server in the middle, and still names only.
 
 ## Install
 
 ```bash
-npm install -g @rinorhatashi/envguard
+npm install -g envradar
 ```
 
 …or run it without installing:
 
 ```bash
-npx @rinorhatashi/envguard scan
+npx envradar scan
 ```
 
 Requires **Node.js 18 or newer**.
 
 ## Quick start
 
-From a project that has `.env.staging` and `.env.production` files, EnvGuard works with **zero configuration** — it discovers them automatically:
+From a project that has `.env.staging` and `.env.production` files, EnvRadar works with **zero configuration** — it discovers them automatically:
 
 ```bash
-envguard scan
+envradar scan
 ```
 
 Point it at a specific directory and/or config file:
 
 ```bash
-envguard scan ./services/api --config envguard.yml
+envradar scan ./services/api --config envradar.yml
 ```
 
 ### Try the bundled demo
@@ -145,8 +145,8 @@ envguard scan ./services/api --config envguard.yml
 The repository ships a demo with source files in all five supported languages and two diverging environments:
 
 ```bash
-git clone https://github.com/rinorhatashi/EnvGuard
-cd EnvGuard
+git clone https://github.com/rinorhatashi/EnvRadar
+cd EnvRadar
 npm install && npm run build
 node dist/index.js scan examples/demo
 ```
@@ -154,7 +154,7 @@ node dist/index.js scan examples/demo
 ## Example output
 
 ```text
-EnvGuard  ·  scanned 5 files  ·  2 environments (staging, production)
+EnvRadar  ·  scanned 5 files  ·  2 environments (staging, production)
 
 VARIABLE               CODE  staging  production  STATUS
 STRIPE_WEBHOOK_SECRET   ✓       ✗         ✗       MISSING
@@ -176,8 +176,8 @@ SENDGRID_API_KEY        ✓       ✓         ✓       OK
 The same report, as machine-readable JSON or as a Markdown PR comment:
 
 ```bash
-envguard scan --format json
-envguard scan --format markdown
+envradar scan --format json
+envradar scan --format markdown
 ```
 
 ## Supported languages
@@ -194,7 +194,7 @@ Each language is matched with its own idiomatic access patterns. Adding a langua
 
 ## Configuration
 
-EnvGuard runs with zero config, but an `envguard.yml` at your project root unlocks declared environments, ignore rules, and CI behavior. **Every field is optional.**
+EnvRadar runs with zero config, but an `envradar.yml` at your project root unlocks declared environments, ignore rules, and CI behavior. **Every field is optional.**
 
 ```yaml
 # Which environments to compare, and where to read each one's variable names.
@@ -206,7 +206,7 @@ environments:
     source: dotenv
     path: .env.production
 
-# Statuses that make `envguard scan` exit non-zero. Defaults to MISSING + PARITY.
+# Statuses that make `envradar scan` exit non-zero. Defaults to MISSING + PARITY.
 failOn:
   - MISSING
   - PARITY
@@ -229,7 +229,7 @@ scan:
     - "**/*.test.ts"
 ```
 
-If `environments` is omitted, EnvGuard auto-discovers them from local `.env.*` files (`.env` → `local`, `.env.staging` → `staging`, …), skipping `.example`, `.sample`, and `.local` files.
+If `environments` is omitted, EnvRadar auto-discovers them from local `.env.*` files (`.env` → `local`, `.env.staging` → `staging`, …), skipping `.example`, `.sample`, and `.local` files.
 
 ## Sources
 
@@ -247,69 +247,69 @@ A **source** answers a single question: *"which variables does this environment 
 ## CLI reference
 
 ```
-envguard scan [path]
+envradar scan [path]
 
 Arguments:
   path                    directory to scan (default: ".")
 
 Options:
-  -c, --config <file>     path to an envguard.yml config file
+  -c, --config <file>     path to an envradar.yml config file
   -f, --format <format>   output format: table | json | markdown (default: table)
   -o, --output <file>     write the report to a file instead of stdout
   --fail-on <list>        statuses that cause a non-zero exit:
                           missing, parity, dead, none (default: missing,parity)
   --no-color              disable colored output
-  -v, --version           print the EnvGuard version
+  -v, --version           print the EnvRadar version
   -h, --help              show help
 ```
 
 ### Exit codes
 
-EnvGuard is built to gate a pipeline:
+EnvRadar is built to gate a pipeline:
 
 | Code | Meaning |
 | :---: | :--- |
 | `0` | No findings in the `fail-on` set. |
 | `1` | At least one finding in the `fail-on` set (e.g. a `MISSING` or `PARITY` variable). |
-| `2` | EnvGuard errored (bad config, unreadable path, …). |
+| `2` | EnvRadar errored (bad config, unreadable path, …). |
 
 ## GitHub Action
 
-Run EnvGuard on every pull request. It posts the report as a comment that updates in place on each push:
+Run EnvRadar on every pull request. It posts the report as a comment that updates in place on each push:
 
 ```mermaid
 sequenceDiagram
     participant PR as Pull request
     participant CI as GitHub Actions
-    participant EG as envguard CLI
+    participant EG as envradar CLI
     PR->>CI: push / open PR
-    CI->>EG: envguard scan
+    CI->>EG: envradar scan
     EG-->>CI: report + exit code
     CI->>PR: create or update the report comment
     CI-->>CI: fail the check if MISSING / PARITY
 ```
 
-Copy [`examples/github-workflow.yml`](examples/github-workflow.yml) to `.github/workflows/envguard.yml`:
+Copy [`examples/github-workflow.yml`](examples/github-workflow.yml) to `.github/workflows/envradar.yml`:
 
 ```yaml
-name: EnvGuard
+name: EnvRadar
 on:
   pull_request:
   push:
     branches: [main]
 
 jobs:
-  envguard:
+  envradar:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write # required to post the report comment
     steps:
       - uses: actions/checkout@v4
-      - uses: rinorhatashi/EnvGuard@v1
+      - uses: rinorhatashi/EnvRadar@v1
         with:
           working-directory: .
-          # config: envguard.yml
+          # config: envradar.yml
           # fail-on: missing,parity
 ```
 
@@ -318,10 +318,10 @@ When a `fail-on` status is present, the job fails — turning environment drift 
 | Input | Description | Default |
 | :--- | :--- | :--- |
 | `working-directory` | Directory to scan. | `.` |
-| `config` | Path to an `envguard.yml`. | _(auto)_ |
+| `config` | Path to an `envradar.yml`. | _(auto)_ |
 | `fail-on` | Statuses that fail the job. | _(from config / defaults)_ |
 | `comment` | Post/update the PR comment. | `true` |
-| `version` | `envguard` npm version to run. | `latest` |
+| `version` | `envradar` npm version to run. | `latest` |
 | `github-token` | Token used to post the comment. | `${{ github.token }}` |
 
 ## Roadmap
@@ -333,7 +333,7 @@ When a `fail-on` status is present, the job fails — turning environment drift 
 
 ## Contributing
 
-EnvGuard is designed to be extended in small, isolated pieces:
+EnvRadar is designed to be extended in small, isolated pieces:
 
 - **Add a language** — append a pattern set to [`src/scan/patterns.ts`](src/scan/patterns.ts) and a test to [`test/extract.test.ts`](test/extract.test.ts).
 - **Add a source** — implement the `SourceAdapter` interface and register it in [`src/sources/index.ts`](src/sources/index.ts).

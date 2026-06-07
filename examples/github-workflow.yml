@@ -1,6 +1,6 @@
-# Copy this file to .github/workflows/envguard.yml in your repository to run
-# EnvGuard on every pull request and post the report as a PR comment.
-name: EnvGuard
+# Copy this file to .github/workflows/envradar.yml in your repository to run
+# EnvRadar on every pull request and post the report as a PR comment.
+name: EnvRadar
 
 on:
   pull_request:
@@ -8,15 +8,15 @@ on:
     branches: [main]
 
 jobs:
-  envguard:
+  envradar:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write # required to post the report comment
     steps:
       - uses: actions/checkout@v4
-      - uses: rinorhatashi/EnvGuard@v1
+      - uses: rinorhatashi/EnvRadar@v1
         with:
           working-directory: .
-          # config: envguard.yml
+          # config: envradar.yml
           # fail-on: missing,parity

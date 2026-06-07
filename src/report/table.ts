@@ -55,7 +55,7 @@ export function renderTable(report: Report, opts: RenderTableOptions): string {
   const fileWord = opts.filesScanned === 1 ? "file" : "files";
   const envWord = envCount === 1 ? "environment" : "environments";
   lines.push(
-    c.bold("EnvGuard") +
+    c.bold("EnvRadar") +
       c.dim(
         `  ·  scanned ${opts.filesScanned} ${fileWord}  ·  ${envCount} ${envWord} (${envList})`,
       ),
@@ -73,7 +73,7 @@ export function renderTable(report: Report, opts: RenderTableOptions): string {
     lines.push(
       c.yellow("No environments configured.") +
         c.dim(
-          " Add .env.<environment> files or an envguard.yml to compare against.",
+          " Add .env.<environment> files or an envradar.yml to compare against.",
         ),
     );
     lines.push("");

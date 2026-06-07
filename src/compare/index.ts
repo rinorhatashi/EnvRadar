@@ -1,6 +1,6 @@
 import type {
   CodeScanResult,
-  EnvguardConfig,
+  EnvRadarConfig,
   EnvironmentVars,
   Finding,
   Report,
@@ -29,7 +29,7 @@ const STATUS_ORDER: Record<Status, number> = {
 export function buildReport(
   code: CodeScanResult,
   environments: EnvironmentVars[],
-  config: EnvguardConfig,
+  config: EnvRadarConfig,
   root: string,
   generatedAt: string,
   warnings: string[] = [],
