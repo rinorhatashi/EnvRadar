@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/envradar"><img src="https://img.shields.io/npm/v/envradar" alt="npm version" /></a>
-  <a href="https://github.com/rinorhatashi/EnvRadar/actions/workflows/ci.yml"><img src="https://github.com/rinorhatashi/EnvRadar/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
+  <a href="https://github.com/Ambitious-Machines/EnvRadar/actions/workflows/ci.yml"><img src="https://github.com/Ambitious-Machines/EnvRadar/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/npm/l/envradar" alt="license" /></a>
   <img src="https://img.shields.io/node/v/envradar" alt="node version" />
 </p>
